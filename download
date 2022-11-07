@@ -15,6 +15,26 @@ if (( call > 0 )); then
 		CUTIME=$(($CUTIME+$CTIME))
 		((ITER++))
 		echo "done in $CTIME ms."
+		tintrmd=$((($(date +%s%N)-$TSTART)/1000000))
+		if (( ITER % 48 == 0)); then
+			if (( $tintrmd > 60000 )); then
+				echo "execution time - $(($tintrmd/60000)) min. $(($tintrmd%60000/1000)) sec. $(($tintrmd%1000)) ms."
+			elif (( $tintrmd > 1000 )); then
+				echo "execution time - $(($tintrmd/1000)) sec. $(($tintrmd%1000)) ms."
+			else
+				echo "execution time - $tintrmd ms."
+			fi
+		fi
+		# aintrmd=$(($CUTIME/$ITER))
+		# if (( ITER % 2 == 0)); then
+		# 	if (( $aintrmd > 60000 )); then
+		# 		echo "average curl time - $(($aintrmd/60000)) min. $(($aintrmd%60000/1000)) sec. $(($aintrmd%1000)) ms."
+		# 	elif (( $aintrmd > 1000 )); then
+		# 		echo "average curl time - $(($aintrmd/1000)) sec. $(($aintrmd%1000)) ms."
+		# 	else
+		# 		echo "average curl time - $aintrmd ms."
+		# 	fi
+		# fi
 		sleep 1
 	done
 	TEND=$(date +%s%N)
@@ -23,21 +43,21 @@ if (( call > 0 )); then
 	echo "------------------"
 	if (( $CUTIME > 60000 )); then
 		echo "Total curl time - $(($CUTIME/60000)) min. $(($CUTIME%60000/1000)) sec. $(($CUTIME%1000)) ms."
-	elif (( $CUTIME > 10000 )); then
+	elif (( $CUTIME > 1000 )); then
 		echo "Total curl time - $(($CUTIME/1000)) sec. $(($CUTIME%1000)) ms."
 	else
 		echo "Total curl time - $CUTIME ms."
 	fi
 	if (( $AVG > 60000 )); then
 		echo "Average curl time - $(($AVG/60000)) min. $(($AVG%60000/1000)) sec. $(($AVG%1000)) ms."
-	elif (( $AVG > 10000 )); then
+	elif (( $AVG > 1000 )); then
 		echo "Average curl time - $(($AVG/1000)) sec. $(($AVG%1000)) ms."
 	else
 		echo "Average curl time - $AVG ms."
 	fi
 	if (( $TTIME > 60000 )); then
 		echo "Total time - $(($TTIME/60000)) min. $(($TTIME%60000/1000)) sec. $(($TTIME%1000)) ms."
-	elif (( $TTIME > 10000 )); then
+	elif (( $TTIME > 1000 )); then
 		echo "Total time - $(($TTIME/1000)) sec. $(($TTIME%1000)) ms."
 	else
 		echo "Total time - $TTIME ms."
