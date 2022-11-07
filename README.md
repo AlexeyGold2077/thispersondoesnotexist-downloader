@@ -1,5 +1,5 @@
 ## thispersondoesnotexist-downloader
-**This script downloads the number of photos you need from _thispersondoesnotexist.com_**.
+**This script downloads the number of photos you need from _thispersondoesnotexist.com_ using the _curl_**.
 #### To use enter the following commands:
 `chmod +x download` - give permission to execute
 
