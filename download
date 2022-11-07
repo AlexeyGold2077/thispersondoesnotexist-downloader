@@ -13,12 +13,12 @@ if (( call > 0 )); then
 		CEND=$(date +%s%N)
 		CTIME=$((($CEND-$CSTART)/1000000))
 		CUTIME=$(($CUTIME+$CTIME))
-		(( ITER++ ))
+		((ITER++))
 		echo "done in $CTIME ms."
 		sleep 1
 	done
 	TEND=$(date +%s%N)
-	TTIME=$((($TEND - $TSTART)/1000000))
+	TTIME=$((($TEND-$TSTART)/1000000))
 	AVG=$(($CUTIME/$ITER))
 	echo "------------------"
 	if (( $CUTIME > 60000 )); then
@@ -42,4 +42,6 @@ if (( call > 0 )); then
 	else
 		echo "Total time - $TTIME ms."
 	fi
+else
+	echo okay...
 fi
