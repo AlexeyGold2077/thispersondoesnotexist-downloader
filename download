@@ -1,23 +1,45 @@
 #!/bin/bash
 echo -n "Enter quantity: "
 read call
-if [[ call > 0 ]]; then
+if (( call > 0 )); then
 	CUTIME=0
+	AVG=0
+	ITER=0
 	TSTART=$(date +%s%N)
 	for (( i = 0; i < call; i++ )); do
 		echo -n "$i. "
 		CSTART=$(date +%s%N)
 		curl -s -o persons/$i https://thispersondoesnotexist.com/image
 		CEND=$(date +%s%N)
-		CTIME=$((($CEND - $CSTART)/1000000))
+		CTIME=$((($CEND-$CSTART)/1000000))
 		CUTIME=$(($CUTIME+$CTIME))
+		(( ITER++ ))
 		echo "done in $CTIME ms."
 		sleep 1
-		# echo "wait..."
 	done
 	TEND=$(date +%s%N)
 	TTIME=$((($TEND - $TSTART)/1000000))
+	AVG=$(($CUTIME/$ITER))
 	echo "------------------"
-	echo "Total curl time - $CUTIME ms."
-	echo "Time spent - $TTIME ms."
+	if (( $CUTIME > 60000 )); then
+		echo "Total curl time - $(($CUTIME/60000)) min. $(($CUTIME%60000/1000)) sec. $(($CUTIME%1000)) ms."
+	elif (( $CUTIME > 10000 )); then
+		echo "Total curl time - $(($CUTIME/1000)) sec. $(($CUTIME%1000)) ms."
+	else
+		echo "Total curl time - $CUTIME ms."
+	fi
+	if (( $AVG > 60000 )); then
+		echo "Average curl time - $(($AVG/60000)) min. $(($AVG%60000/1000)) sec. $(($AVG%1000)) ms."
+	elif (( $AVG > 10000 )); then
+		echo "Average curl time - $(($AVG/1000)) sec. $(($AVG%1000)) ms."
+	else
+		echo "Average curl time - $AVG ms."
+	fi
+	if (( $TTIME > 60000 )); then
+		echo "Total time - $(($TTIME/60000)) min. $(($TTIME%60000/1000)) sec. $(($TTIME%1000)) ms."
+	elif (( $TTIME > 10000 )); then
+		echo "Total time - $(($TTIME/1000)) sec. $(($TTIME%1000)) ms."
+	else
+		echo "Total time - $TTIME ms."
+	fi
 fi
