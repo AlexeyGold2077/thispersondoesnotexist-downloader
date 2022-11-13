@@ -3,6 +3,6 @@
 #### To use enter the following commands:
 `chmod +x download` - give permission to execute
 
-`mkdir persons` - create a folder for downloaded photos (not required if it already exists)
+`mkdir output` - create a folder for downloaded photos (not required if it already exists)
 
 `bash ./download` - run the program
