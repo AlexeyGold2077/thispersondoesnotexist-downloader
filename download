@@ -1,15 +1,32 @@
 #!/bin/bash
+echo  "Select: "
+echo  "	1. thispersondoesnotexist.com"
+echo  "	2. thisartworkdoesnotexist.com"
+echo  "	3. thiscatdoesnotexist.com"
+echo  "	4. thishorsedoesnotexist.com"
+# echo -n "	https://thischemicaldoesnotexist.com/" ???
+read SELECT
+if (( SELECT == 1 )); then
+	SOURCE="https://thispersondoesnotexist.com/image"
+elif (( SELECT == 2 )); then
+	SOURCE="https://thisartworkdoesnotexist.com/"
+elif (( SELECT == 3 )); then
+	SOURCE="https://thiscatdoesnotexist.com/"
+else
+	SOURCE="https://thishorsedoesnotexist.com/"
+fi
 echo -n "Enter quantity: "
-read call
-if (( call > 0 )); then
+read CALL
+clear
+if (( CALL > 0 )); then
 	CUTIME=0
 	AVG=0
 	ITER=0
 	TSTART=$(date +%s%N)
-	for (( i = 0; i < call; i++ )); do
+	for (( i = 0; i < CALL; i++ )); do
 		echo -n "$i. "
 		CSTART=$(date +%s%N)
-		curl -s -o persons/$i https://thispersondoesnotexist.com/image
+		curl -s -o output/$i $SOURCE
 		CEND=$(date +%s%N)
 		CTIME=$((($CEND-$CSTART)/1000000))
 		CUTIME=$(($CUTIME+$CTIME))
@@ -25,16 +42,6 @@ if (( call > 0 )); then
 				echo "execution time - $tintrmd ms."
 			fi
 		fi
-		# aintrmd=$(($CUTIME/$ITER))
-		# if (( ITER % 2 == 0)); then
-		# 	if (( $aintrmd > 60000 )); then
-		# 		echo "average curl time - $(($aintrmd/60000)) min. $(($aintrmd%60000/1000)) sec. $(($aintrmd%1000)) ms."
-		# 	elif (( $aintrmd > 1000 )); then
-		# 		echo "average curl time - $(($aintrmd/1000)) sec. $(($aintrmd%1000)) ms."
-		# 	else
-		# 		echo "average curl time - $aintrmd ms."
-		# 	fi
-		# fi
 		sleep 1
 	done
 	TEND=$(date +%s%N)
